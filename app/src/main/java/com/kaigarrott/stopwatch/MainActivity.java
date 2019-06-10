@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     private StopwatchThread mThread;
     private TextView mOutputView;
-    private Boolean mRunning = false;
+    private boolean mRunning = false;
     private final String TAG = this.getClass().getName();
 
     @Override
@@ -21,15 +21,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mOutputView = findViewById(R.id.output);
+        mOutputView.setText("00:00:00.00");
     }
 
     private void start() {
+        mRunning = true;
         mThread = new StopwatchThread();
         mThread.start();
     }
 
     private void stop() {
-        mThread.interrupt();
+        mRunning = false;
+        if(mThread != null) mThread.interrupt();
+        mThread = null;
     }
 
     public void toggle(View v) {
@@ -38,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             start();
         }
-        mRunning = !mRunning;
     }
 
     private class StopwatchThread extends Thread {
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            while(!interrupted()) {
+            while(!isInterrupted()) {
                 try {
                     long diff = new Date().getTime() - begin;
                     int h = (int) Math.floor(diff / 3600000);
@@ -89,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
 
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
-
                 }
             }
         }
