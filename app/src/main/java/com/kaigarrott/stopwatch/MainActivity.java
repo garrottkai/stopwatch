@@ -3,6 +3,8 @@ package com.kaigarrott.stopwatch;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -15,6 +17,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView mOutputView;
     private boolean mRunning = false;
     private FloatingActionButton mButton;
+
+    private RecyclerView mTimesView;
+    private RecyclerView.Adapter mTimesAdapter;
+    private RecyclerView.LayoutManager mTimesLayoutManager;
+
     private final String TAG = this.getClass().getName();
 
     @Override
@@ -24,7 +31,12 @@ public class MainActivity extends AppCompatActivity {
 
         mButton = findViewById(R.id.fab);
         mOutputView = findViewById(R.id.output);
-       // mOutputView.setText(getString(R.string.default_time_value));
+        mTimesView = findViewById(R.id.times_view);
+        mTimesView.setHasFixedSize(true);
+        mTimesLayoutManager = new LinearLayoutManager(this);
+        mTimesView.setLayoutManager(mTimesLayoutManager);
+        mTimesAdapter = new TimesAdapter();
+        mTimesView.setAdapter(mTimesAdapter);
     }
 
     private void start() {
