@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
         mTimesView.setHasFixedSize(true);
         mTimesLayoutManager = new LinearLayoutManager(this);
         mTimesView.setLayoutManager(mTimesLayoutManager);
-        mTimesAdapter = new TimesAdapter();
+        String[] testData = new String[]{"01:02:03.04", "02:02:03.04", "03:02:03.04", "04:02:03.04", "05:02:03.04", "06:02:03.04", "07:02:03.04", "08:02:03.04"};
+        mTimesAdapter = new TimesAdapter(testData);
         mTimesView.setAdapter(mTimesAdapter);
     }
 
