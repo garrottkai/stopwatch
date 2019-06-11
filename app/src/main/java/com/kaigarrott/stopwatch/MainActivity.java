@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mOutputView = findViewById(R.id.output);
-        mOutputView.setText("00:00:00.00");
+        mOutputView.setText(getString(R.string.default_time_value));
     }
 
     private void start() {
@@ -54,12 +54,13 @@ public class MainActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mOutputView.setText("00:00:00.00");
+                    mOutputView.setText(getString(R.string.default_time_value));
                 }
             });
 
-            while(!isInterrupted()) {
-                try {
+            try {
+                while(!this.isInterrupted()) {
+
                     long diff = new Date().getTime() - begin;
                     int h = (int) Math.floor(diff / 3600000);
                     int m = (int) Math.floor((diff % 3600000) / 60000);
@@ -91,8 +92,9 @@ public class MainActivity extends AppCompatActivity {
                     });
 
                     Thread.sleep(10);
-                } catch (InterruptedException e) {
+
                 }
+            } catch (InterruptedException e) {
             }
         }
     }
