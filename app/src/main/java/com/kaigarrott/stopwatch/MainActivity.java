@@ -1,5 +1,6 @@
 package com.kaigarrott.stopwatch;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     private StopwatchThread mThread;
     private TextView mOutputView;
     private boolean mRunning = false;
+    private FloatingActionButton mButton;
     private final String TAG = this.getClass().getName();
 
     @Override
@@ -20,18 +22,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mButton = findViewById(R.id.fab);
         mOutputView = findViewById(R.id.output);
-        mOutputView.setText(getString(R.string.default_time_value));
+       // mOutputView.setText(getString(R.string.default_time_value));
     }
 
     private void start() {
         mRunning = true;
+        mButton.setImageResource(R.drawable.ic_stop);
         mThread = new StopwatchThread();
         mThread.start();
     }
 
     private void stop() {
         mRunning = false;
+        mButton.setImageResource(R.drawable.ic_start);
         if(mThread != null) mThread.interrupt();
         mThread = null;
     }
