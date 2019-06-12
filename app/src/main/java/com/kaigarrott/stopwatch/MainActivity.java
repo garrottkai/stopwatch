@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         //String[] testData = new String[]{"01:02:03.04", "02:02:03.04", "03:02:03.04", "04:02:03.04", "05:02:03.04", "06:02:03.04", "07:02:03.04", "08:02:03.04"};
         mTimesAdapter = new TimesAdapter(this);
         mTimesView.setAdapter(mTimesAdapter);
+        initViewModel();
     }
 
     private void initViewModel() {

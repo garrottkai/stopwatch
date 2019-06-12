@@ -12,7 +12,7 @@ import com.kaigarrott.stopwatch.data.TimeEntry;
 
 import java.util.List;
 
-public class TimesAdapter extends RecyclerView.Adapter<TimesAdapter.ViewHolder> {
+public class TimesAdapter extends RecyclerView.Adapter<TimesAdapter.TimeViewHolder> {
 
     private List<TimeEntry> mDataSet;
     private Context mContext;
@@ -21,25 +21,25 @@ public class TimesAdapter extends RecyclerView.Adapter<TimesAdapter.ViewHolder> 
         mContext = context;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView mTextView;
+    class TimeViewHolder extends RecyclerView.ViewHolder {
+        private TextView textView;
 
-        public ViewHolder(View view) {
+        public TimeViewHolder(View view) {
             super(view);
-            mTextView = view.findViewById(R.id.times_textview);
+            textView = view.findViewById(R.id.times_textview);
         }
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public TimeViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.times_view, viewGroup, false);
-        return new ViewHolder(view);
+        return new TimeViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        viewHolder.mTextView.setText(Utils.format(mDataSet.get(position).getValue()));
+    public void onBindViewHolder(@NonNull TimeViewHolder viewHolder, int position) {
+        viewHolder.textView.setText(Utils.format(mDataSet.get(position).getValue()));
     }
 
     public void setData(List<TimeEntry> timeEntries) {
