@@ -1,5 +1,6 @@
 package com.kaigarrott.stopwatch;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,12 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.kaigarrott.stopwatch.data.TimeEntry;
+
+import java.util.List;
+
 public class TimesAdapter extends RecyclerView.Adapter<TimesAdapter.ViewHolder> {
 
-    private String[] mDataSet;
+    private List<TimeEntry> mDataSet;
+    private Context mContext;
 
-    public TimesAdapter(String[] data) {
-        mDataSet = data;
+    public TimesAdapter(Context context) {
+        mContext = context;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -27,17 +33,22 @@ public class TimesAdapter extends RecyclerView.Adapter<TimesAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.times_view, viewGroup, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.times_view, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        viewHolder.mTextView.setText(mDataSet[position]);
+        viewHolder.mTextView.setText(mDataSet.get(position).getValue());
+    }
+
+    public void setData(List<TimeEntry> timeEntries) {
+        mDataSet = timeEntries;
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return mDataSet.length;
+        return mDataSet.size();
     }
 }

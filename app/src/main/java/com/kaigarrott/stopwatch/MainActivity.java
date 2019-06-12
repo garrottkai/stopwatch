@@ -1,5 +1,7 @@
 package com.kaigarrott.stopwatch;
 
+import android.arch.lifecycle.Observer;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.arch.lifecycle.ViewModelProviders;
+
+import com.kaigarrott.stopwatch.data.TimeDatabase;
+import com.kaigarrott.stopwatch.data.TimeEntry;
 
 import java.util.Date;
 import java.util.List;
@@ -15,12 +21,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private StopwatchThread mThread;
-    private TextView mOutputView;
     private boolean mRunning = false;
-    private FloatingActionButton mButton;
+    private TimeDatabase db;
 
+    private TextView mOutputView;
+    private FloatingActionButton mButton;
     private RecyclerView mTimesView;
-    private RecyclerView.Adapter mTimesAdapter;
+    private TimesAdapter mTimesAdapter;
     private RecyclerView.LayoutManager mTimesLayoutManager;
 
     private final String TAG = this.getClass().getName();
@@ -36,9 +43,19 @@ public class MainActivity extends AppCompatActivity {
         mTimesView.setHasFixedSize(true);
         mTimesLayoutManager = new LinearLayoutManager(this);
         mTimesView.setLayoutManager(mTimesLayoutManager);
-        String[] testData = new String[]{"01:02:03.04", "02:02:03.04", "03:02:03.04", "04:02:03.04", "05:02:03.04", "06:02:03.04", "07:02:03.04", "08:02:03.04"};
-        mTimesAdapter = new TimesAdapter(testData);
+        //String[] testData = new String[]{"01:02:03.04", "02:02:03.04", "03:02:03.04", "04:02:03.04", "05:02:03.04", "06:02:03.04", "07:02:03.04", "08:02:03.04"};
+        mTimesAdapter = new TimesAdapter(this);
         mTimesView.setAdapter(mTimesAdapter);
+    }
+
+    private void initViewModel() {
+        TimesViewModel model = ViewModelProviders.of(this).get(TimesViewModel.class);
+        model.getTimes().observe(this, new Observer<List<TimeEntry>>() {
+            @Override
+            public void onChanged(@Nullable List<TimeEntry> timeEntries) {
+                mTimesAdapter.setData(timeEntries);
+            }
+        });
     }
 
     private void start() {
