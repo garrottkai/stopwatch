@@ -39,7 +39,7 @@ public class TimesAdapter extends RecyclerView.Adapter<TimesAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        viewHolder.mTextView.setText(mDataSet.get(position).getValue());
+        viewHolder.mTextView.setText(Utils.format(mDataSet.get(position).getValue()));
     }
 
     public void setData(List<TimeEntry> timeEntries) {

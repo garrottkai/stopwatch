@@ -110,27 +110,28 @@ public class MainActivity extends AppCompatActivity {
                 while(!this.isInterrupted()) {
 
                     final long diff = new Date().getTime() - mBegin;
-                    int h = (int) Math.floor(diff / 3600000);
-                    int m = (int) Math.floor((diff % 3600000) / 60000);
-                    int s = (int) Math.floor((diff % 60000) / 1000);
-                    int cs = (int) Math.floor((diff % 1000) / 10);
-
-                    String outH = "";
-                    String outM = "";
-                    String outS = "";
-                    String outCs = "";
-
-                    if (h < 10) outH += "0";
-                    if (m < 10) outM += "0";
-                    if (s < 10) outS += "0";
-                    if (cs < 10) outCs += "0";
-
-                    outH += String.valueOf(h);
-                    outM += String.valueOf(m);
-                    outS += String.valueOf(s);
-                    outCs += String.valueOf(cs);
-
-                    final String out = outH + ":" + outM + ":" + outS + "." + outCs;
+//                    int h = (int) Math.floor(diff / 3600000);
+//                    int m = (int) Math.floor((diff % 3600000) / 60000);
+//                    int s = (int) Math.floor((diff % 60000) / 1000);
+//                    int cs = (int) Math.floor((diff % 1000) / 10);
+//
+//                    String outH = "";
+//                    String outM = "";
+//                    String outS = "";
+//                    String outCs = "";
+//
+//                    if (h < 10) outH += "0";
+//                    if (m < 10) outM += "0";
+//                    if (s < 10) outS += "0";
+//                    if (cs < 10) outCs += "0";
+//
+//                    outH += String.valueOf(h);
+//                    outM += String.valueOf(m);
+//                    outS += String.valueOf(s);
+//                    outCs += String.valueOf(cs);
+//
+//                    final String out = outH + ":" + outM + ":" + outS + "." + outCs;
+                    final String out = Utils.format(diff);
 
                     runOnUiThread(new Runnable() {
                         @Override
