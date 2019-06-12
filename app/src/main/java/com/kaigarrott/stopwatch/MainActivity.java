@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private StopwatchThread mThread;
     private boolean mRunning = false;
     private TimeDatabase db;
+    private long mBegin;
+    private long mElapsed;
 
     private TextView mOutputView;
     private FloatingActionButton mButton;
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         mButton.setImageResource(R.drawable.ic_start);
         if(mThread != null) mThread.interrupt();
         mThread = null;
+        TimeEntry newEntry = new TimeEntry(mBegin, mElapsed);
     }
 
     public void toggle(View v) {
@@ -85,11 +88,12 @@ public class MainActivity extends AppCompatActivity {
         public void run() {
 
             super.run();
-            long begin = new Date().getTime();
+            mBegin = new Date().getTime();
 
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    mElapsed = 0;
                     mOutputView.setText(getString(R.string.default_time_value));
                 }
             });
@@ -97,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 while(!this.isInterrupted()) {
 
-                    long diff = new Date().getTime() - begin;
+                    final long diff = new Date().getTime() - mBegin;
                     int h = (int) Math.floor(diff / 3600000);
                     int m = (int) Math.floor((diff % 3600000) / 60000);
                     int s = (int) Math.floor((diff % 60000) / 1000);
@@ -123,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            mElapsed = diff;
                             mOutputView.setText(out);
                         }
                     });

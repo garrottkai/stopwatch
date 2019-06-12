@@ -10,16 +10,18 @@ public class TimeEntry {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private int timestamp;
-    private int value;
+    private long timestamp;
+    private long value;
 
     @Ignore
-    public TimeEntry(int value) {
+    public TimeEntry(long timestamp, long value) {
+        this.timestamp = timestamp;
         this.value = value;
     }
 
-    public TimeEntry(int id, int value) {
+    public TimeEntry(int id, long timestamp, long value) {
         this.id = id;
+        this.timestamp = timestamp;
         this.value = value;
     }
 
@@ -27,11 +29,11 @@ public class TimeEntry {
         return id;
     }
 
-    public int getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public int getValue() {
+    public long getValue() {
         return value;
     }
 
@@ -39,11 +41,11 @@ public class TimeEntry {
         this.id = id;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
-    public void setValue(int value) {
+    public void setValue(long value) {
         this.value = value;
     }
 }
