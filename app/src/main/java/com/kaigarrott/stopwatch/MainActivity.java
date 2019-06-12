@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private StopwatchThread mThread;
     private boolean mRunning = false;
-    private TimeDatabase db;
+    private TimeDatabase mDb;
     private long mBegin;
     private long mElapsed;
 
@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mDb = TimeDatabase.getInstance(getApplicationContext());
 
         mButton = findViewById(R.id.fab);
         mOutputView = findViewById(R.id.output);
@@ -72,7 +74,13 @@ public class MainActivity extends AppCompatActivity {
         mButton.setImageResource(R.drawable.ic_start);
         if(mThread != null) mThread.interrupt();
         mThread = null;
-        TimeEntry newEntry = new TimeEntry(mBegin, mElapsed);
+        final TimeEntry newEntry = new TimeEntry(mBegin, mElapsed);
+        TaskExecutors.getInstance().db().execute(new Runnable() {
+            @Override
+            public void run() {
+                mDb.timeDao().insert(newEntry);
+            }
+        });
     }
 
     public void toggle(View v) {
